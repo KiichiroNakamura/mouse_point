@@ -1,0 +1,42 @@
+import React, { Component, useState, useRef, useMount } from "react";
+import { render } from "react-dom";
+import * as Konva from "konva";
+import { Stage, Layer, Image, Rect, Shape } from "react-konva";
+import useImage from "use-image";
+export const ImageDisplay2 = () => {
+  const BackImage = () => {
+    const [image] = useImage("https://konvajs.org/assets/yoda.jpg");
+    return <Image image={image} x={0} y={0} width={500} height={500} />;
+  };
+
+  const LayerScroller = () => {
+    const style = {
+      width: 10,
+      height: 100,
+      fill: "grey",
+      opacity: 0.8,
+      x: 200 - 5 - 10,
+      y: 5,
+      draggable: true,
+      dragBoundFunc: function (pos) {
+        pos.x = Math.max(Math.min(pos.x, 200 - 200 - 5), 5);
+        pos.y = 200 - 5 - 10;
+
+        return pos;
+      }
+    };
+    return (
+      <Layer style={style}>
+        <BackImage />
+        {/* <Rect fill="red" x={100} y={100} width={300} height={200} /> */}
+      </Layer>
+    );
+  };
+  // const scrollLayerRef = useRef(null);
+  // scrollLayerRef.current = new Konva.default.Layer();
+  return (
+    <Stage width={200} height={200} draggable={true}>
+      <LayerScroller />
+    </Stage>
+  );
+};
